@@ -3,19 +3,18 @@
 
 #include "Position.h"
 #include <list>
+#include <string>
 
-enum class Direction
-{
+enum class Direction {
     North = 1,
     East,
     South,
     West
 };
 
-class Crawler
-{
+class Crawler {
 private:
-    int id;
+    std::string id;
     Position position;
     Direction direction;
     int size;
@@ -23,9 +22,9 @@ private:
     std::list<Position> path;
 
 public:
-    Crawler(int id, Position pos, Direction dir, int size);
+    Crawler(std::string id, Position pos, char dirChar, int size, bool alive); // updated constructor
 
-    int getId() const;
+    std::string getId() const;
     Position getPosition() const;
     Direction getDirection() const;
     int getSize() const;
