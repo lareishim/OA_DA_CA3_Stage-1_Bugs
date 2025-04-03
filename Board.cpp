@@ -54,6 +54,27 @@ void Board::displayAllBugs() const {
     }
 }
 
+void Board::findBugById(const std::string& id) const {
+    for (const auto& crawler : crawlers) {
+        if (crawler->getId() == id) {
+            std::cout << crawler->getId() << " Crawler ("
+                      << crawler->getPosition().x << "," << crawler->getPosition().y << ") "
+                      << crawler->getSize() << " ";
+
+            switch (crawler->getDirection()) {
+                case Direction::North: std::cout << "North"; break;
+                case Direction::East:  std::cout << "East"; break;
+                case Direction::South: std::cout << "South"; break;
+                case Direction::West:  std::cout << "West"; break;
+            }
+
+            std::cout << " " << (crawler->isAlive() ? "Alive" : "Dead") << std::endl;
+            return;
+        }
+    }
+
+    std::cout << "bug " << id << " not found" << std::endl;
+}
 
 void Board::move() {
     for (auto& crawler : crawlers) {
