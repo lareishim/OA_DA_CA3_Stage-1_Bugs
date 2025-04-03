@@ -173,3 +173,27 @@ void Board::savePathsToFile() const {
     cout << "Life history saved to: " << filename.str() << endl;
 }
 
+void Board::displayAllCells() const
+{
+    map<pair<int, int>, vector<const Crawler*>> cellMap;
+
+
+    for (const auto& crawler : crawlers) {
+        Position pos = crawler->getPosition();
+        cellMap[{pos.x, pos.y}].push_back(crawler);
+    }
+
+    cout << "--- Board Cells with Bugs ---" << endl;
+
+    for (const auto& [pos, bugs] : cellMap) {
+        cout << "Cell (" << pos.first << "," << pos.second << "): ";
+        for (const auto* crawler : bugs) {
+            cout << crawler->getId();
+            if (!crawler->isAlive()) cout << " (Dead)";
+            cout << "  ";
+        }
+        cout << endl;
+    }
+}
+
+
