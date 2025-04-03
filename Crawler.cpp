@@ -2,6 +2,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <stdexcept>
+#include <iostream>
+
+using namespace std;
 
 Direction charToDirection(char c) {
     switch (c) {
@@ -9,23 +12,24 @@ Direction charToDirection(char c) {
         case 'E': return Direction::East;
         case 'S': return Direction::South;
         case 'W': return Direction::West;
-        default: throw std::invalid_argument("Invalid direction char");
+        default: throw invalid_argument("Invalid direction char");
     }
 }
 
-Crawler::Crawler(std::string id, Position pos, char dirChar, int size, bool alive)
+Crawler::Crawler(string id, Position pos, char dirChar, int size, bool alive)
     : id(id), position(pos), direction(charToDirection(dirChar)), size(size), alive(alive)
 {
     path.push_back(pos);
-    std::srand(std::time(nullptr));
+    srand(time(nullptr));
 }
 
-std::string Crawler::getId() const { return id; }
+string Crawler::getId() const { return id; }
 Position Crawler::getPosition() const { return position; }
 Direction Crawler::getDirection() const { return direction; }
 int Crawler::getSize() const { return size; }
 bool Crawler::isAlive() const { return alive; }
-const std::list<Position>& Crawler::getPath() const { return path; }
+const list<Position>& Crawler::getPath() const { return path; }
+string Crawler::getKillerId() const { return killerId; }
 
 bool Crawler::isWayBlocked(int width, int height) const {
     switch (direction) {
@@ -41,7 +45,7 @@ void Crawler::move(int width, int height) {
     if (!alive) return;
 
     while (isWayBlocked(width, height)) {
-        direction = static_cast<Direction>((std::rand() % 4) + 1);
+        direction = static_cast<Direction>((rand() % 4) + 1);
     }
 
     switch (direction) {
@@ -54,6 +58,7 @@ void Crawler::move(int width, int height) {
     path.push_back(position);
 }
 
-void Crawler::markDead() {
+void Crawler::markDead(const string& killer) {
     alive = false;
+    killerId = killer;
 }

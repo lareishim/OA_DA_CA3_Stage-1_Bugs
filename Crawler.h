@@ -19,21 +19,23 @@ private:
     Direction direction;
     int size;
     bool alive;
+    std::string killerId;
     std::list<Position> path;
 
 public:
-    Crawler(std::string id, Position pos, char dirChar, int size, bool alive); // updated constructor
+    Crawler(std::string id, Position pos, char dirChar, int size, bool alive);
 
     std::string getId() const;
     Position getPosition() const;
     Direction getDirection() const;
     int getSize() const;
     bool isAlive() const;
+    std::string getKillerId() const;
     const std::list<Position>& getPath() const;
 
     void move(int boardWidth, int boardHeight);
     bool isWayBlocked(int boardWidth, int boardHeight) const;
-    void markDead();
+    void markDead(const std::string& killer);
 };
 
 #endif // CRAWLER_H
