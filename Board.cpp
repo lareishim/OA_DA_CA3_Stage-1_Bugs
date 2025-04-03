@@ -1,6 +1,7 @@
 //
 // Created by larem on 01/04/2025.
 //
+
 #include "Board.h"
 #include <fstream>
 #include <iostream>
@@ -33,4 +34,29 @@ void Board::loadCrawlersFromFile(const std::string& filename) {
     }
 
     file.close();
+}
+
+void Board::displayAllBugs() const {
+    for (const auto& crawler : crawlers) {
+        std::cout << crawler->getId() << " Crawler ("
+                  << crawler->getPosition().x << ","
+                  << crawler->getPosition().y << ") "
+                  << crawler->getSize() << " ";
+
+        switch (crawler->getDirection()) {
+            case Direction::North: std::cout << "North"; break;
+            case Direction::East:  std::cout << "East";  break;
+            case Direction::South: std::cout << "South"; break;
+            case Direction::West:  std::cout << "West";  break;
+        }
+
+        std::cout << " " << (crawler->isAlive() ? "Alive" : "Dead") << std::endl;
+    }
+}
+
+
+void Board::move() {
+    for (auto& crawler : crawlers) {
+        crawler->move(width, height);
+    }
 }

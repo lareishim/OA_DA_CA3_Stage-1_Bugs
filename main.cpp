@@ -10,7 +10,7 @@ int main() {
     board.displayAllBugs();
 
     std::cout << "\n--- Crawlers After Tapping the Board ---" << std::endl;
-    board.tapBoard();
+    board.main();
     board.displayAllBugs();
 
     return 0;

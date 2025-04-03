@@ -19,7 +19,7 @@ public:
     void loadCrawlersFromFile(const std::string& filename);
     void displayAllBugs() const;
     void findBugById(int id) const;
-    void tapBoard(); // calls move() on all bugs
+    void move(); // calls move() on all bugs
     void displayAllPaths() const;
     void savePathsToFile() const;
     void displayAllCells() const;
