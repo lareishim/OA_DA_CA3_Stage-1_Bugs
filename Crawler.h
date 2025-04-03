@@ -5,14 +5,16 @@
 #include <list>
 #include <string>
 
-enum class Direction {
+enum class Direction
+{
     North = 1,
     East,
     South,
     West
 };
 
-class Crawler {
+class Crawler
+{
 private:
     std::string id;
     Position position;

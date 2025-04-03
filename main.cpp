@@ -75,7 +75,7 @@ void menu(Board& board)
             board.displayAllCells();
             break;
         case 7:
-            
+
             break;
         case 8:
             board.savePathsToFile();
