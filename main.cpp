@@ -75,8 +75,22 @@ void menu(Board& board)
             board.displayAllCells();
             break;
         case 7:
+            {
+                cout << "Running simulation. Type number of taps to simulate: ";
+                int taps;
+                cin >> taps;
+                cin.ignore(); // Clear newline from the buffer
 
-            break;
+                for (int i = 0; i < taps; ++i)
+                {
+                    board.move();
+                    this_thread::sleep_for(chrono::milliseconds(100));
+                    cout << "Tap " << i + 1 << " complete.\n";
+                }
+
+                cout << "Simulation ended.\n";
+                break;
+            }
         case 8:
             board.savePathsToFile();
             cout << "Exiting.\n";
