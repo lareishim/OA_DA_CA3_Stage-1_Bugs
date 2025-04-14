@@ -6,10 +6,9 @@
 
 using namespace std;
 
-Direction charToDirection(char c)
-{
-    switch (c)
-    {
+// Converts input char to Direction enum
+Direction charToDirection(char c) {
+    switch (c) {
     case 'N': return Direction::North;
     case 'E': return Direction::East;
     case 'S': return Direction::South;
@@ -18,59 +17,43 @@ Direction charToDirection(char c)
     }
 }
 
-Crawler::Crawler(string id, Position pos, char dirChar, int size, bool alive)
-    : id(id), position(pos), direction(charToDirection(dirChar)), size(size), alive(alive)
-{
-    path.push_back(pos);
+// Constructor
+Crawler::Crawler(string idStr, Position pos, char dirChar, int sizeVal, bool isAlive)
+    : Bug(stoi(idStr), pos, charToDirection(dirChar), sizeVal) {
+    this->alive = isAlive;
     srand(time(nullptr));
 }
 
-string Crawler::getId() const { return id; }
-Position Crawler::getPosition() const { return position; }
-Direction Crawler::getDirection() const { return direction; }
-int Crawler::getSize() const { return size; }
-bool Crawler::isAlive() const { return alive; }
-const list<Position>& Crawler::getPath() const { return path; }
-string Crawler::getKillerId() const { return killerId; }
-
-bool Crawler::isWayBlocked(int width, int height) const
-{
-    switch (direction)
-    {
-    case Direction::North: return position.y == 0;
-    case Direction::East: return position.x == width - 1;
-    case Direction::South: return position.y == height - 1;
-    case Direction::West: return position.x == 0;
-    }
-    return true;
-}
-
-void Crawler::move(int width, int height)
-{
+// Override of abstract move() method
+void Crawler::move() {
     if (!alive) return;
 
-    while (isWayBlocked(width, height))
-    {
+    const int boardWidth = 10;
+    const int boardHeight = 10;
+
+    // Keep changing direction until not blocked
+    while (isWayBlocked(boardWidth, boardHeight)) {
         direction = static_cast<Direction>((rand() % 4) + 1);
     }
 
-    switch (direction)
-    {
-    case Direction::North: position.y--;
-        break;
-    case Direction::East: position.x++;
-        break;
-    case Direction::South: position.y++;
-        break;
-    case Direction::West: position.x--;
-        break;
+    // Move according to direction
+    switch (direction) {
+    case Direction::North: position.setY(position.getY() - 1); break;
+    case Direction::East:  position.setX(position.getX() + 1); break;
+    case Direction::South: position.setY(position.getY() + 1); break;
+    case Direction::West:  position.setX(position.getX() - 1); break;
     }
 
-    path.push_back(position);
+    path.push_back(position); // Record new position
 }
 
-void Crawler::markDead(const string& killer)
-{
+// Mark the crawler as dead and store killer ID
+void Crawler::markDead(const string& killer) {
     alive = false;
     killerId = killer;
+}
+
+// Getter for killerId
+string Crawler::getKillerId() const {
+    return killerId;
 }

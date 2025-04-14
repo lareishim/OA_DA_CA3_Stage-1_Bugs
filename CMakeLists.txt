@@ -8,4 +8,5 @@ add_executable(OA_DA_CA3_Stage_1_Bugs main.cpp
         Crawler.h
         Board.cpp
         Board.h
-        Position.h)
+        Position.h
+        Bug.h)

@@ -1,43 +1,23 @@
 #ifndef CRAWLER_H
 #define CRAWLER_H
 
-#include "Position.h"
-#include <list>
+#include "Bug.h"
 #include <string>
 
-enum class Direction
-{
-    North = 1,
-    East,
-    South,
-    West
-};
-
-class Crawler
-{
+class Crawler : public Bug {
 private:
-    std::string id;
-    Position position;
-    Direction direction;
-    int size;
-    bool alive;
     std::string killerId;
-    std::list<Position> path;
 
 public:
-    Crawler(std::string id, Position pos, char dirChar, int size, bool alive);
+    Crawler(std::string idStr, Position pos, char dirChar, int sizeVal, bool isAlive);
 
-    std::string getId() const;
-    Position getPosition() const;
-    Direction getDirection() const;
-    int getSize() const;
-    bool isAlive() const;
-    std::string getKillerId() const;
-    const std::list<Position>& getPath() const;
-
-    void move(int boardWidth, int boardHeight);
-    bool isWayBlocked(int boardWidth, int boardHeight) const;
+    void move() override; // Overrides Bug's pure virtual move()
     void markDead(const std::string& killer);
+
+    std::string getKillerId() const;
 };
 
 #endif // CRAWLER_H
+
+// we removed the other attributes since Crawler is now inheriting from the abstract class Bug,
+// all of those attributes are already defined in the Bug class
