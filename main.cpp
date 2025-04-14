@@ -33,7 +33,7 @@ void menu(Board& board)
 
         while (true)
         {
-            cout << "Enter your choice (1–8): ";
+            cout << "Enter your choice (1-8): ";
             string input;
             getline(cin, input);
             stringstream ss(input);
