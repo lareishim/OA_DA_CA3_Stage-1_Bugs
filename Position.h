@@ -17,6 +17,9 @@ struct Position
 
     int getX() const { return x; }
     int getY() const { return y; }
+
+    void setX(int newX) { x = newX; }
+    void setY(int newY) { y = newY; }
 };
 
 #endif // POSITION_H
