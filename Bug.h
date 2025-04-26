@@ -2,7 +2,10 @@
 #define BUG_H
 
 #include <vector>
+#include <string>
 #include "Position.h"
+
+using namespace std;
 
 enum class Direction { North = 1, East, South, West };
 
@@ -14,7 +17,8 @@ protected:
     Direction direction;
     int size;
     bool alive;
-    std::vector<Position> path;
+    vector<Position> path;
+    string killerId; // 🔥 Add this to support Board.cpp
 
 public:
     Bug(int id, Position pos, Direction dir, int size)
@@ -30,7 +34,14 @@ public:
     Direction getDirection() const { return direction; }
     int getSize() const { return size; }
     bool isAlive() const { return alive; }
-    const std::vector<Position>& getPath() const { return path; }
+    const vector<Position>& getPath() const { return path; }
+    string getKillerId() const { return killerId; } // 🔥 Add this
+    void markDead(const string& killer)
+    {
+        // 🔥 And this
+        alive = false;
+        killerId = killer;
+    }
 
     void setAlive(bool a) { alive = a; }
 
@@ -40,7 +51,7 @@ public:
         path.push_back(pos);
     }
 
-    virtual void move() = 0; // Pure virtual: must be implemented in derived classes
+    virtual void move() = 0; // Pure virtual
 
     bool isWayBlocked(int boardWidth, int boardHeight) const
     {

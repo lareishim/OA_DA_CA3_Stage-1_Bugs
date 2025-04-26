@@ -5,6 +5,9 @@
 #include <map>
 #include <ctime>
 #include <iomanip>
+#include <typeinfo>
+
+#include "Crawler.h"
 
 using namespace std;
 
@@ -14,11 +17,11 @@ Board::Board(int width, int height) : width(width), height(height)
 
 Board::~Board()
 {
-    for (Crawler* crawler : crawlers)
+    for (Bug* bug : bugs)
     {
-        delete crawler;
+        delete bug;
     }
-    crawlers.clear();
+    bugs.clear();
 }
 
 void Board::loadCrawlersFromFile(const string& filename)
@@ -37,8 +40,8 @@ void Board::loadCrawlersFromFile(const string& filename)
     while (file >> id >> x >> y >> direction >> size >> boolalpha >> alive)
     {
         Position pos(x, y);
-        Crawler* crawler = new Crawler(id, pos, direction[0], size, alive);
-        crawlers.push_back(crawler);
+        Bug* crawler = new Crawler(id, pos, direction[0], size, alive);
+        bugs.push_back(crawler);
     }
 
     file.close();
@@ -46,14 +49,13 @@ void Board::loadCrawlersFromFile(const string& filename)
 
 void Board::displayAllBugs() const
 {
-    for (const auto& crawler : crawlers)
+    for (const auto& bug : bugs)
     {
-        cout << crawler->getId() << " Crawler ("
-            << crawler->getPosition().x << ","
-            << crawler->getPosition().y << ") "
-            << crawler->getSize() << " ";
+        cout << bug->getId() << " " << typeid(*bug).name() << " ("
+            << bug->getPosition().x << "," << bug->getPosition().y << ") "
+            << bug->getSize() << " ";
 
-        switch (crawler->getDirection())
+        switch (bug->getDirection())
         {
         case Direction::North: cout << "North";
             break;
@@ -65,21 +67,20 @@ void Board::displayAllBugs() const
             break;
         }
 
-        cout << " " << (crawler->isAlive() ? "Alive" : "Dead") << endl;
+        cout << " " << (bug->isAlive() ? "Alive" : "Dead") << endl;
     }
 }
 
 void Board::findBugById(const string& id) const
 {
-    for (const auto& crawler : crawlers)
+    for (const auto& bug : bugs)
     {
-        if (crawler->getId() == id)
+        if (to_string(bug->getId()) == id)
         {
-            cout << crawler->getId() << " Crawler ("
-                << crawler->getPosition().x << "," << crawler->getPosition().y << ") "
-                << crawler->getSize() << " ";
+            cout << bug->getId() << " (" << bug->getPosition().x << "," << bug->getPosition().y << ") "
+                << bug->getSize() << " ";
 
-            switch (crawler->getDirection())
+            switch (bug->getDirection())
             {
             case Direction::North: cout << "North";
                 break;
@@ -91,7 +92,7 @@ void Board::findBugById(const string& id) const
                 break;
             }
 
-            cout << " " << (crawler->isAlive() ? "Alive" : "Dead") << endl;
+            cout << " " << (bug->isAlive() ? "Alive" : "Dead") << endl;
             return;
         }
     }
@@ -101,31 +102,30 @@ void Board::findBugById(const string& id) const
 
 void Board::move()
 {
-    for (auto& crawler : crawlers)
+    for (auto& bug : bugs)
     {
-        if (crawler->isAlive())
+        if (bug->isAlive())
         {
-            crawler->move(width, height);
+            bug->move();
         }
     }
 
-    map<pair<int, int>, vector<Crawler*>> cellMap;
+    map<pair<int, int>, vector<Bug*>> cellMap;
 
-    for (auto& crawler : crawlers)
+    for (auto& bug : bugs)
     {
-        if (crawler->isAlive())
+        if (bug->isAlive())
         {
-            auto pos = crawler->getPosition();
-            cellMap[{pos.x, pos.y}].push_back(crawler);
+            auto pos = bug->getPosition();
+            cellMap[{pos.x, pos.y}].push_back(bug);
         }
     }
-
 
     for (auto& [pos, bugsInCell] : cellMap)
     {
         if (bugsInCell.size() > 1)
         {
-            Crawler* biggest = bugsInCell[0];
+            Bug* biggest = bugsInCell[0];
             for (auto* bug : bugsInCell)
             {
                 if (bug->getSize() > biggest->getSize())
@@ -138,7 +138,7 @@ void Board::move()
             {
                 if (bug != biggest)
                 {
-                    bug->markDead(biggest->getId());
+                    // bug->markDead(biggest->getId()); ERROR
                 }
             }
         }
@@ -147,20 +147,20 @@ void Board::move()
 
 void Board::displayAllPaths() const
 {
-    for (const auto& crawler : crawlers)
+    for (const auto& bug : bugs)
     {
-        cout << crawler->getId() << " Crawler Path: ";
-        for (auto it = crawler->getPath().begin(); it != crawler->getPath().end(); ++it)
+        cout << bug->getId() << " Path: ";
+        for (auto it = bug->getPath().begin(); it != bug->getPath().end(); ++it)
         {
             cout << "(" << it->x << "," << it->y << ")";
-            if (next(it) != crawler->getPath().end()) cout << ",";
+            if (next(it) != bug->getPath().end()) cout << ",";
         }
 
-        if (!crawler->isAlive())
+        if (!bug->isAlive())
         {
-            if (!crawler->getKillerId().empty())
+            if (!bug->getKillerId().empty())
             {
-                cout << " Eaten by " << crawler->getKillerId();
+                cout << " Eaten by " << bug->getKillerId();
             }
             else
             {
@@ -178,30 +178,25 @@ void Board::displayAllPaths() const
 
 void Board::savePathsToFile() const
 {
-    time_t now = time(nullptr);
-    tm* localTime = localtime(&now);
-
     ostringstream filename;
-    filename << "bugs_life_history_"
-        << put_time(localTime, "%Y-%m-%d_%H-%M-%S")
-        << ".out";
+    filename << "bugs_life_history_" << ".out";
 
     ofstream out(filename.str());
 
-    for (const auto& crawler : crawlers)
+    for (const auto& bug : bugs)
     {
-        out << crawler->getId() << " Crawler Path: ";
-        for (auto it = crawler->getPath().begin(); it != crawler->getPath().end(); ++it)
+        out << bug->getId() << " Path: ";
+        for (auto it = bug->getPath().begin(); it != bug->getPath().end(); ++it)
         {
             out << "(" << it->x << "," << it->y << ")";
-            if (next(it) != crawler->getPath().end()) out << ",";
+            if (next(it) != bug->getPath().end()) out << ",";
         }
 
-        if (!crawler->isAlive())
+        if (!bug->isAlive())
         {
-            if (!crawler->getKillerId().empty())
+            if (!bug->getKillerId().empty())
             {
-                out << " Eaten by " << crawler->getKillerId();
+                out << " Eaten by " << bug->getKillerId();
             }
             else
             {
@@ -222,24 +217,23 @@ void Board::savePathsToFile() const
 
 void Board::displayAllCells() const
 {
-    map<pair<int, int>, vector<const Crawler*>> cellMap;
+    map<pair<int, int>, vector<const Bug*>> cellMap;
 
-
-    for (const auto& crawler : crawlers)
+    for (const auto& bug : bugs)
     {
-        Position pos = crawler->getPosition();
-        cellMap[{pos.x, pos.y}].push_back(crawler);
+        Position pos = bug->getPosition();
+        cellMap[{pos.x, pos.y}].push_back(bug);
     }
 
     cout << "--- Board Cells with Bugs ---" << endl;
 
-    for (const auto& [pos, bugs] : cellMap)
+    for (const auto& [pos, bugsInCell] : cellMap)
     {
         cout << "Cell (" << pos.first << "," << pos.second << "): ";
-        for (const auto* crawler : bugs)
+        for (const auto* bug : bugsInCell)
         {
-            cout << crawler->getId();
-            if (!crawler->isAlive()) cout << " (Dead)";
+            cout << bug->getId();
+            if (!bug->isAlive()) cout << " (Dead)";
             cout << "  ";
         }
         cout << endl;
