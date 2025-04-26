@@ -9,4 +9,6 @@ add_executable(OA_DA_CA3_Stage_1_Bugs main.cpp
         Board.cpp
         Board.h
         Position.h
-        Bug.h)
+        Bug.h
+        Hopper.cpp
+        Hopper.h)
