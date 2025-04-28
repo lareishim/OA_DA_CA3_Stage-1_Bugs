@@ -1,30 +1,27 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include "Bug.h"
 #include <vector>
 #include <string>
-
-using namespace std;
+#include "Bug.h"
 
 class Board
 {
 private:
-    int width;
-    int height;
-    vector<Bug*> bugs;
+    std::vector<Bug*> bugs;
+    int width, height;
 
 public:
     Board(int width, int height);
     ~Board();
 
-    void loadCrawlersFromFile(const string& filename);
+    void loadCrawlersFromFile(const std::string& filename);
     void displayAllBugs() const;
-    void findBugById(const string& id) const;
+    void findBugById(const std::string& id) const;
     void move();
     void displayAllPaths() const;
     void savePathsToFile() const;
     void displayAllCells() const;
 };
 
-#endif // BOARD_H
+#endif

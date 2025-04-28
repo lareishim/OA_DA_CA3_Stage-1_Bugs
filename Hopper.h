@@ -9,8 +9,7 @@ private:
     int hopLength;
 
 public:
-    Hopper(int id, Position pos, Direction dir, int size, int hopLength);
-
+    Hopper(std::string id, Position pos, Direction dir, int size, int hopLength);
     void move() override;
 };
 

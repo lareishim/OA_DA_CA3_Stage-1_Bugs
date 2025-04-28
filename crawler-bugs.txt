@@ -1,10 +1,14 @@
-C1 2 3 N 2 true
-C2 4 5 E 3 true
-C3 1 1 S 1 false
-C4 6 0 W 2 true
-C5 0 7 N 3 true
-C6 3 2 E 1 true
-C7 5 4 S 2 false
-C8 7 6 W 3 true
-C9 8 1 N 2 true
-C10 9 9 S 1 true
+Crawler C1 2 3 N 2 true
+Crawler C2 4 5 E 3 true
+Crawler C3 1 1 S 1 false
+Crawler C4 6 0 W 2 true
+Crawler C5 0 7 N 3 true
+Crawler C6 3 2 E 1 true
+Crawler C7 5 4 S 2 false
+Crawler C8 7 6 W 3 true
+Crawler C9 8 1 N 2 true
+Crawler C10 9 9 S 1 true
+Bishop B1 1 8 NE 3 true
+Bishop B2 5 2 SW 2 true
+Hopper H1 6 6 W 2 true 2
+Hopper H2 3 3 E 3 true 2

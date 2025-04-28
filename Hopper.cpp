@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 
-Hopper::Hopper(int id, Position pos, Direction dir, int size, int hopLength)
+Hopper::Hopper(string id, Position pos, Direction dir, int size, int hopLength)
     : Bug(id, pos, dir, size), hopLength(hopLength)
 {
 }
@@ -14,16 +14,15 @@ void Hopper::move()
     const int boardWidth = 10;
     const int boardHeight = 10;
 
-    int hopCount = 0;
-    while (hopCount < hopLength)
+    int hops = 0;
+    while (hops < hopLength)
     {
         if (isWayBlocked(boardWidth, boardHeight))
         {
             direction = static_cast<Direction>((rand() % 4) + 1);
-            continue; // Try new direction
+            continue;
         }
 
-        // Move 1 unit in direction
         switch (direction)
         {
         case Direction::North: position.setY(position.getY() - 1);
@@ -34,8 +33,10 @@ void Hopper::move()
             break;
         case Direction::West: position.setX(position.getX() - 1);
             break;
+        default: break;
         }
+
         path.push_back(position);
-        hopCount++;
+        ++hops;
     }
 }

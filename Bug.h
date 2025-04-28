@@ -7,21 +7,31 @@
 
 using namespace std;
 
-enum class Direction { North = 1, East, South, West };
+enum class Direction
+{
+    North = 1,
+    East,
+    South,
+    West,
+    NorthEast,
+    NorthWest,
+    SouthEast,
+    SouthWest
+};
 
 class Bug
 {
 protected:
-    int id;
+    string id;
     Position position;
     Direction direction;
     int size;
     bool alive;
     vector<Position> path;
-    string killerId; // 🔥 Add this to support Board.cpp
+    string killerId;
 
 public:
-    Bug(int id, Position pos, Direction dir, int size)
+    Bug(string id, Position pos, Direction dir, int size)
         : id(id), position(pos), direction(dir), size(size), alive(true)
     {
         path.push_back(pos);
@@ -29,16 +39,16 @@ public:
 
     virtual ~Bug() = default;
 
-    int getId() const { return id; }
+    string getId() const { return id; }
     Position getPosition() const { return position; }
     Direction getDirection() const { return direction; }
     int getSize() const { return size; }
     bool isAlive() const { return alive; }
     const vector<Position>& getPath() const { return path; }
-    string getKillerId() const { return killerId; } // 🔥 Add this
-    void markDead(const string& killer)
+    string getKillerId() const { return killerId; }
+
+    virtual void markDead(const string& killer)
     {
-        // 🔥 And this
         alive = false;
         killerId = killer;
     }
@@ -51,7 +61,7 @@ public:
         path.push_back(pos);
     }
 
-    virtual void move() = 0; // Pure virtual
+    virtual void move() = 0;
 
     bool isWayBlocked(int boardWidth, int boardHeight) const
     {
@@ -64,6 +74,7 @@ public:
         case Direction::East: return x == boardWidth - 1;
         case Direction::South: return y == boardHeight - 1;
         case Direction::West: return x == 0;
+        default: ;
         }
         return false;
     }
