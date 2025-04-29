@@ -1,10 +1,100 @@
-C1 2 3 N 2 true
-C2 4 5 E 3 true
-C3 1 1 S 1 false
-C4 6 0 W 2 true
-C5 0 7 N 3 true
-C6 3 2 E 1 true
-C7 5 4 S 2 false
-C8 7 6 W 3 true
-C9 8 1 N 2 true
-C10 9 9 S 1 true
+Crawler C1 2 3 N 2 true
+Crawler C2 4 5 E 3 true
+Crawler C3 1 1 S 1 false
+Crawler C4 6 0 W 2 true
+Crawler C5 0 7 N 3 true
+Crawler C6 3 2 E 1 true
+Crawler C7 5 4 S 2 false
+Crawler C8 7 6 W 3 true
+Crawler C9 8 1 N 2 true
+Crawler C10 9 9 S 1 true
+Bishop B1 1 8 NE 3 true
+Bishop B2 5 2 SW 2 true
+Hopper H1 6 6 W 2 true 2
+Hopper H2 3 3 E 3 true 2
+Hopper H3 1 0 NE 1 true 3
+Crawler C11 8 1 W 1 true
+Crawler C12 3 8 N 3 true
+Hopper H4 8 6 W 2 true 1
+Crawler C13 6 5 S 1 true
+Bishop B3 1 1 SE 1 true
+Bishop B4 9 4 N 3 true
+Crawler C14 6 1 S 3 true
+Bishop B5 9 3 E 1 true
+Bishop B6 1 3 E 2 true
+Hopper H5 5 2 NW 2 true 2
+Hopper H6 1 9 S 3 true 1
+Bishop B7 6 4 W 3 true
+Crawler C15 3 0 S 2 true
+Crawler C16 9 5 E 3 true
+Hopper H7 7 2 NE 1 true 3
+Hopper H8 4 9 SE 3 true 1
+Crawler C17 8 7 N 1 true
+Crawler C18 2 6 N 2 true
+Bishop B8 8 4 N 3 true
+Hopper H9 5 1 NE 2 true 1
+Hopper H10 4 8 S 3 false 3
+Bishop B9 8 9 W 1 true
+Crawler C19 8 8 N 3 true
+Crawler C20 1 5 S 1 true
+Hopper H11 7 1 S 1 true 3
+Crawler C21 9 6 E 3 true
+Hopper H12 3 4 SE 3 true 2
+Hopper H13 3 3 E 2 true 3
+Crawler C22 0 1 N 1 true
+Crawler C23 8 3 S 3 true
+Hopper H14 2 9 SW 1 true 2
+Crawler C24 6 6 W 3 true
+Hopper H15 2 4 SW 1 true 1
+Bishop B10 0 8 N 1 false
+Crawler C25 7 7 E 2 false
+Crawler C26 6 0 W 2 false
+Bishop B11 4 6 SW 1 true
+Crawler C27 0 9 N 3 true
+Crawler C28 9 7 E 1 false
+Crawler C29 2 1 N 3 true
+Bishop B12 3 9 N 3 true
+Hopper H16 9 9 NW 2 true 3
+Bishop B13 6 2 NE 2 true
+Crawler C30 0 7 N 1 true
+Hopper H17 4 2 NW 1 true 2
+Bishop B14 2 7 NE 3 false
+Hopper H18 8 0 NE 3 true 1
+Bishop B15 8 2 NE 2 true
+Hopper H19 5 3 NE 3 true 1
+Crawler C31 0 0 S 1 true
+Bishop B16 2 8 N 2 true
+Crawler C32 0 4 S 1 true
+Crawler C33 3 1 S 3 true
+Bishop B17 9 2 W 1 false
+Crawler C34 2 5 W 3 true
+Crawler C35 1 6 N 2 true
+Bishop B18 5 4 W 1 true
+Crawler C36 4 1 S 2 true
+Bishop B19 8 5 N 1 true
+Bishop B20 4 0 E 3 true
+Hopper H20 5 6 E 2 true 1
+Bishop B21 0 6 N 3 false
+Hopper H21 3 5 SE 1 false 2
+Hopper H22 2 3 SE 3 false 3
+Hopper H23 6 8 N 2 true 2
+Hopper H24 7 3 SW 3 true 1
+Bishop B22 2 0 N 1 false
+Hopper H25 1 7 SE 3 true 3
+Hopper H26 6 7 SE 1 true 3
+Crawler C37 3 2 W 1 true
+Crawler C38 7 8 S 2 true
+Hopper H27 7 4 W 3 true 3
+Bishop B23 4 3 NE 2 true
+Hopper H28 1 2 S 1 true 1
+Hopper H29 5 8 SW 2 true 2
+Bishop B24 9 0 SE 2 true
+Bishop B25 3 7 W 2 true
+Crawler C39 9 8 N 2 true
+Hopper H30 5 5 SE 2 true 2
+Bishop B26 0 5 W 3 true
+Hopper H31 4 5 S 3 true 3
+Hopper H32 1 4 E 3 true 2
+Hopper H33 1 8 NW 1 true 2
+Crawler C40 6 9 S 2 true
+Crawler C41 4 7 E 2 true

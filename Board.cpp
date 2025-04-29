@@ -3,24 +3,20 @@
 #include <iostream>
 #include <sstream>
 #include <map>
-#include <ctime>
 #include <iomanip>
 #include <typeinfo>
-
 #include "Crawler.h"
+#include "Bishop.h"
+#include "Hopper.h"
 
 using namespace std;
 
-Board::Board(int width, int height) : width(width), height(height)
-{
-}
+Board::Board(int width, int height) : width(width), height(height) {}
 
 Board::~Board()
 {
     for (Bug* bug : bugs)
-    {
         delete bug;
-    }
     bugs.clear();
 }
 
@@ -33,38 +29,75 @@ void Board::loadCrawlersFromFile(const string& filename)
         return;
     }
 
-    string id, direction;
-    int x, y, size;
+    string type, id, directionStr;
+    int x, y, size, hopLength;
     bool alive;
 
-    while (file >> id >> x >> y >> direction >> size >> boolalpha >> alive)
+    cout << "Loading bugs from " << filename << endl;
+
+    string line;
+    while (getline(file, line))
     {
-        Position pos(x, y);
-        Bug* crawler = new Crawler(id, pos, direction[0], size, alive);
-        bugs.push_back(crawler);
+        istringstream iss(line);
+        iss >> type >> id >> x >> y >> directionStr >> size >> boolalpha >> alive;
+
+        if (type == "Crawler")
+        {
+            Position pos(x, y);
+            Direction dirEnum = stringToDirection(directionStr);
+            Bug* bug = new Crawler(id, pos, dirEnum, size, alive);
+            bugs.push_back(bug);
+        }
+        else if (type == "Bishop")
+        {
+            Position pos(x, y);
+            Direction dirEnum = stringToDirection(directionStr);
+            Bug* bug = new Bishop(id, pos, dirEnum, size, alive);
+            bugs.push_back(bug);
+        }
+        else if (type == "Hopper")
+        {
+            iss >> hopLength;
+            Position pos(x, y);
+            Direction dirEnum = stringToDirection(directionStr);
+            Bug* bug = new Hopper(id, pos, dirEnum, size, hopLength);
+            bug->setAlive(alive);
+            bugs.push_back(bug);
+        }
+        else
+        {
+            cerr << "Failed to parse line: " << line << endl;
+        }
     }
 
     file.close();
+    cout << "Done loading: " << bugs.size() << " bugs loaded.\n";
 }
 
 void Board::displayAllBugs() const
 {
     for (const auto& bug : bugs)
     {
-        cout << bug->getId() << " " << typeid(*bug).name() << " ("
+        string type;
+        if (dynamic_cast<Crawler*>(bug)) type = "Crawler";
+        else if (dynamic_cast<Bishop*>(bug)) type = "Bishop";
+        else if (dynamic_cast<Hopper*>(bug)) type = "Hopper";
+        else type = "Unknown";
+
+        cout << bug->getId() << " " << type << " ("
             << bug->getPosition().x << "," << bug->getPosition().y << ") "
             << bug->getSize() << " ";
 
         switch (bug->getDirection())
         {
-        case Direction::North: cout << "North";
-            break;
-        case Direction::East: cout << "East";
-            break;
-        case Direction::South: cout << "South";
-            break;
-        case Direction::West: cout << "West";
-            break;
+        case Direction::North: cout << "North"; break;
+        case Direction::East: cout << "East"; break;
+        case Direction::South: cout << "South"; break;
+        case Direction::West: cout << "West"; break;
+        case Direction::NorthEast: cout << "NorthEast"; break;
+        case Direction::NorthWest: cout << "NorthWest"; break;
+        case Direction::SouthEast: cout << "SouthEast"; break;
+        case Direction::SouthWest: cout << "SouthWest"; break;
         }
 
         cout << " " << (bug->isAlive() ? "Alive" : "Dead") << endl;
@@ -75,21 +108,17 @@ void Board::findBugById(const string& id) const
 {
     for (const auto& bug : bugs)
     {
-        if (to_string(bug->getId()) == id)
+        if (bug->getId() == id)
         {
             cout << bug->getId() << " (" << bug->getPosition().x << "," << bug->getPosition().y << ") "
                 << bug->getSize() << " ";
 
             switch (bug->getDirection())
             {
-            case Direction::North: cout << "North";
-                break;
-            case Direction::East: cout << "East";
-                break;
-            case Direction::South: cout << "South";
-                break;
-            case Direction::West: cout << "West";
-                break;
+            case Direction::North: cout << "North"; break;
+            case Direction::East: cout << "East"; break;
+            case Direction::South: cout << "South"; break;
+            case Direction::West: cout << "West"; break;
             }
 
             cout << " " << (bug->isAlive() ? "Alive" : "Dead") << endl;
@@ -138,7 +167,7 @@ void Board::move()
             {
                 if (bug != biggest)
                 {
-                    // bug->markDead(biggest->getId()); ERROR
+                    bug->markDead(biggest->getId());
                 }
             }
         }
@@ -238,4 +267,8 @@ void Board::displayAllCells() const
         }
         cout << endl;
     }
+}
+
+const std::vector<Bug*>& Board::getBugs() const {
+    return bugs;
 }

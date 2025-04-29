@@ -3,6 +3,8 @@
 #include <sstream>
 #include <thread>
 #include <chrono>
+#include "BugVisualizer.h"
+
 using namespace std;
 
 void menu(Board& board);
@@ -30,20 +32,21 @@ void menu(Board& board)
         cout << "6. Display all Cells listing their Bugs\n";
         cout << "7. Run simulation (generates a Tap every tenth of a second)\n";
         cout << "8. Exit (write Life History of all Bugs to file)\n";
+        cout << "9. Visualize Bug Board (SFML View)\n";
 
         while (true)
         {
-            cout << "Enter your choice (1-8): ";
+            cout << "Enter your choice (1-9): ";
             string input;
             getline(cin, input);
             stringstream ss(input);
-            if (ss >> choice && ss.eof() && choice >= 1 && choice <= 8)
+            if (ss >> choice && ss.eof() && choice >= 1 && choice <= 9)
             {
                 break;
             }
             else
             {
-                cout << "Invalid input. Please enter a number between 1 and 8.\n";
+                cout << "Invalid input. Please enter a number between 1 and 9.\n";
             }
         }
 
@@ -65,7 +68,7 @@ void menu(Board& board)
                 break;
             }
         case 4:
-            board.move(); // One tap (move + fight)
+            board.move();
             cout << "Board tapped. Bugs moved and resolved fights.\n";
             break;
         case 5:
@@ -79,7 +82,7 @@ void menu(Board& board)
                 cout << "Running simulation. Type number of taps to simulate: ";
                 int taps;
                 cin >> taps;
-                cin.ignore(); // Clear newline from the buffer
+                cin.ignore();
 
                 for (int i = 0; i < taps; ++i)
                 {
@@ -96,6 +99,12 @@ void menu(Board& board)
             cout << "Exiting.\n";
             exit = true;
             break;
+        case 9:
+            {
+                BugVisualizer visualizer;
+                visualizer.run(board);
+                break;
+            }
         }
     }
 }
