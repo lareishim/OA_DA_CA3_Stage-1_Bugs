@@ -11,7 +11,7 @@ void menu(Board& board);
 
 int main()
 {
-    Board board(10, 10);
+    Board board(25, 25);
     menu(board);
     return 0;
 }
