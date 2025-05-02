@@ -9,4 +9,4 @@ public:
     void run(Board& board);
 };
 
-#endif // BUGVISUALIZER_H
+#endif

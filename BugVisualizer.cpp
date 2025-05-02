@@ -10,10 +10,10 @@ void BugVisualizer::run(Board& board)
 {
     sf::RenderWindow window(sf::VideoMode(1000, 1000), "Bug Simulation");
     sf::Clock clock;
-    sf::Time moveDelay = sf::milliseconds(700);
+    sf::Time moveDelay = sf::milliseconds(800);
 
     int moveCount = 0;
-    const int maxMoves = 30;
+    const int maxMoves = 50;
 
     float gridSize = 80.0f;
     float margin = 5.0f;
